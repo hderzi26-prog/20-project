@@ -275,7 +275,16 @@ function initGame() {
     // STEP 3: Set up main game controls
     // Adds click event listener to the spin button
     // When clicked, calls handleSpin() to generate new player options
-    spinBtn.addEventListener('click', handleSpin);
+    spinBtn.addEventListener('click', () => {
+        // Check if we're in formation selection mode
+        if (document.getElementById('formation-selection').style.display !== 'none') {
+            // If formation selection is visible, this is the continue button
+            handleFormationContinue();
+        } else {
+            // If main game is visible, this is the spin button
+            handleSpin();
+        }
+    });
     
     // STEP 4: Set up game restart
     // Adds click event listener to the restart button
@@ -296,30 +305,83 @@ function initializeTeam() {
 // Handle formation selection - switches to selected formation and updates UI
 // Updates game state, regenerates field layout, and shows main game screen
 function selectFormation(formation) {
-    // Remove previous selection
-    document.querySelectorAll('.formation-card').forEach(card => {
-        card.classList.remove('selected');
-    });
+    console.log('Formation selected:', formation);
     
-    // Add selection to clicked card
-    document.querySelector(`[data-formation="${formation}"]`).classList.add('selected');
+    try {
+        // Remove previous selection
+        document.querySelectorAll('.formation-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        
+        // Add selection to clicked card
+        document.querySelector(`[data-formation="${formation}"]`).classList.add('selected');
+        
+        // Update game state
+        gameState.selectedFormation = formation;
+        initializeTeam();
+        
+        // Update formation display
+        document.getElementById('selected-formation').textContent = formation;
+        
+        // Generate field layout
+        generateFieldLayout();
+        
+        // Hide formation selection and show main game
+        setTimeout(() => {
+            console.log('Switching to main game...');
+            document.getElementById('formation-selection').style.display = 'none';
+            document.getElementById('main-game').style.display = 'block';
+            updateDisplay();
+            console.log('Main game displayed successfully');
+        }, 500);
+    } catch (error) {
+        console.error('Error in formation selection:', error);
+        alert('Error selecting formation. Please try again.');
+    }
+}
+
+// Handle formation continue button - starts the main game after formation selection
+// This function is called when the user clicks "CONTINUE" after selecting a formation
+function handleFormationContinue() {
+    console.log('Continue button clicked - starting main game');
     
-    // Update game state
-    gameState.selectedFormation = formation;
-    initializeTeam();
-    
-    // Update formation display
-    document.getElementById('selected-formation').textContent = formation;
-    
-    // Generate field layout
-    generateFieldLayout();
-    
-    // Hide formation selection and show main game
-    setTimeout(() => {
+    try {
+        // Check if a formation is selected
+        const selectedFormation = document.querySelector('.formation-card.selected');
+        if (!selectedFormation) {
+            alert('Please select a formation first!');
+            return;
+        }
+        
+        // Get the selected formation name
+        const formation = selectedFormation.dataset.formation;
+        console.log('Starting game with formation:', formation);
+        
+        // Update game state
+        gameState.selectedFormation = formation;
+        initializeTeam();
+        
+        // Update formation display
+        document.getElementById('selected-formation').textContent = formation;
+        
+        // Generate field layout
+        generateFieldLayout();
+        
+        // Hide formation selection and show main game
         document.getElementById('formation-selection').style.display = 'none';
         document.getElementById('main-game').style.display = 'block';
+        
+        // Update display and start first pick
         updateDisplay();
-    }, 500);
+        
+        // Generate first pick
+        handleSpin();
+        
+        console.log('Main game started successfully');
+    } catch (error) {
+        console.error('Error starting main game:', error);
+        alert('Error starting game. Please refresh the page.');
+    }
 }
 
 // Generate field layout based on selected formation - creates visual field representation
@@ -1440,5 +1502,15 @@ function hideDiddyGif() {
     }
 }
 
-// Start the game
-initGame();
+// Start the game when DOM is fully loaded
+// This ensures all HTML elements are available before trying to access them
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        console.log('Initializing FIFA Ultimate Team Draft game...');
+        initGame();
+        console.log('Game initialized successfully!');
+    } catch (error) {
+        console.error('Error initializing game:', error);
+        alert('Error initializing game. Please refresh the page.');
+    }
+});
