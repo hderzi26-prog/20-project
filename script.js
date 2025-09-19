@@ -412,16 +412,16 @@ function getNeededPositions() {
     return neededPositions;
 }
 
-// Get players for needed positions - smart draft system with balanced difficulty
+// Get players for needed positions - smart draft system with guaranteed quality
 // Returns 3 players that can fill the positions still needed in the formation
-// NEW FEATURE: Maximum 3 bad players (rating < 80) per pick for better balance
+// NEW FEATURE: Exactly 3 good players (rating >= 80) per pick for guaranteed quality
 function getPlayersForNeededPositions(neededPositions) {
     const availablePlayers = getAvailablePlayers();
     const spinPlayers = [];
     
     if (neededPositions.length === 0) {
         // If all positions are filled, get balanced random players for bench
-        // This ensures maximum 3 bad players even when filling bench slots
+        // This ensures exactly 3 good players even when filling bench slots
         return getBalancedRandomPlayers(availablePlayers, 3);
     }
     
@@ -454,39 +454,48 @@ function getPlayersForNeededPositions(neededPositions) {
         availablePlayers.splice(availablePlayers.indexOf(randomPlayer), 1);
     }
     
-    // Ensure maximum 3 bad players per pick for better balance
+    // Ensure exactly 3 good players per pick for guaranteed quality
     return ensureMaxBadPlayers(spinPlayers, availablePlayers);
 }
 
-// Ensure maximum 3 bad players per pick - balances the draft for better gameplay
-// Replaces excess bad players (rating < 80) with better players to improve pick quality
+// Ensure exactly 3 good players per pick - guarantees balanced draft quality
+// Replaces bad players (rating < 80) with good players (rating >= 80) to ensure quality
 function ensureMaxBadPlayers(spinPlayers, availablePlayers) {
-    // Count current bad players (rating below 80)
+    // Count current good players (rating 80 or above)
+    const goodPlayers = spinPlayers.filter(player => player.rating >= 80);
     const badPlayers = spinPlayers.filter(player => player.rating < 80);
     
-    // If we have more than 3 bad players, replace the excess with better ones
-    if (badPlayers.length > 3) {
-        const excessCount = badPlayers.length - 3;
-        const goodPlayers = availablePlayers.filter(player => 
+    // We want exactly 3 good players, so calculate how many we need to replace
+    const goodPlayersNeeded = 3;
+    const goodPlayersToAdd = goodPlayersNeeded - goodPlayers.length;
+    
+    // If we need more good players, replace bad ones
+    if (goodPlayersToAdd > 0) {
+        // Get available good players that aren't already in the pick
+        const availableGoodPlayers = availablePlayers.filter(player => 
             player.rating >= 80 && !spinPlayers.some(p => p.name === player.name)
         );
         
-        // Replace excess bad players with good ones
-        for (let i = 0; i < excessCount && goodPlayers.length > 0; i++) {
-            // Find the worst bad player to replace
+        // Replace the worst bad players with good ones
+        for (let i = 0; i < goodPlayersToAdd && availableGoodPlayers.length > 0; i++) {
+            // Find the worst bad player to replace (lowest rating first)
             const worstBadPlayer = badPlayers.sort((a, b) => a.rating - b.rating)[i];
             const worstIndex = spinPlayers.findIndex(p => p.name === worstBadPlayer.name);
             
             if (worstIndex !== -1) {
                 // Get a random good player
-                const randomGoodPlayer = goodPlayers[Math.floor(Math.random() * goodPlayers.length)];
+                const randomGoodPlayer = availableGoodPlayers[Math.floor(Math.random() * availableGoodPlayers.length)];
                 spinPlayers[worstIndex] = randomGoodPlayer;
                 
-                // Remove from good players to avoid duplicates
-                const goodIndex = goodPlayers.findIndex(p => p.name === randomGoodPlayer.name);
+                // Remove from available good players to avoid duplicates
+                const goodIndex = availableGoodPlayers.findIndex(p => p.name === randomGoodPlayer.name);
                 if (goodIndex > -1) {
-                    goodPlayers.splice(goodIndex, 1);
+                    availableGoodPlayers.splice(goodIndex, 1);
                 }
+                
+                // Update our tracking arrays
+                badPlayers.splice(badPlayers.indexOf(worstBadPlayer), 1);
+                goodPlayers.push(randomGoodPlayer);
             }
         }
     }
@@ -494,8 +503,8 @@ function ensureMaxBadPlayers(spinPlayers, availablePlayers) {
     return spinPlayers;
 }
 
-// Get balanced random players - ensures better distribution of player quality
-// Uses the same weighted system but applies bad player limits
+// Get balanced random players - ensures exactly 3 good players per pick
+// Uses the same weighted system but guarantees quality by replacing bad players
 function getBalancedRandomPlayers(playerList, count) {
     const result = [];
     const availablePlayers = [...playerList];

@@ -7,6 +7,7 @@ A modern, interactive soccer team builder game inspired by FIFA Ultimate Team's 
 ### ⚽ Core Gameplay
 - **Formation Selection**: Choose from 3 tactical formations (4-4-2, 4-3-3, 3-5-2)
 - **Smart Draft System**: 15 picks to build your ultimate team
+- **Guaranteed Quality**: Exactly 3 good players (80+ rating) per pick
 - **Position Flexibility**: Players can adapt to multiple positions
 - **Chemistry System**: Team bonuses based on player combinations
 
@@ -27,6 +28,7 @@ A modern, interactive soccer team builder game inspired by FIFA Ultimate Team's 
 - **Position Mapping**: Flexible player positioning (attackers can play across front line)
 - **Bench Management**: 3 bench players with swap functionality
 - **Progress Tracking**: Real-time draft progress and team statistics
+- **Quality Assurance**: Every pick guaranteed to have 3 good players (80+ rating)
 
 ## 🚀 How to Play
 
