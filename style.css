@@ -1,0 +1,802 @@
+/**
+ * FIFA ULTIMATE TEAM DRAFT GAME STYLES
+ * Modern, futuristic design with animations and responsive layout
+ * Features: Dark theme, glowing effects, player cards, and dance animations
+ */
+
+/* Reset and base styles - removes default browser styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Main body styling - dark futuristic theme */
+body {
+    font-family: 'Futura', 'Arial', sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+    min-height: 100vh;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* Main container - centers content and sets max width */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.fut-header {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 2px solid #333;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.fut-logo h1 {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #00d4ff;
+    text-shadow: 0 0 20px rgba(0,212,255,0.5);
+    margin: 0;
+}
+
+.fut-logo h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: #ffd700;
+    margin: 0;
+}
+
+.draft-info {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.draft-round, .draft-picks {
+    text-align: center;
+}
+
+.round-label, .picks-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+#current-round, #picks-left {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #00d4ff;
+    text-shadow: 0 0 15px rgba(0,212,255,0.5);
+}
+
+.round-total {
+    color: #666;
+    font-size: 1.2rem;
+}
+
+.formation-selection-screen {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 2px solid #333;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.fut-card {
+    margin-bottom: 30px;
+}
+
+.fut-card h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #00d4ff;
+    text-shadow: 0 0 20px rgba(0,212,255,0.5);
+    letter-spacing: 2px;
+}
+
+.fut-card p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #ccc;
+}
+
+.formation-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.fut-formation-card {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 2px solid #333;
+    border-radius: 15px;
+    padding: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.fut-formation-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0,212,255,0.1), transparent);
+    transition: left 0.5s;
+}
+
+.fut-formation-card:hover::before {
+    left: 100%;
+}
+
+.fut-formation-card:hover {
+    border-color: #00d4ff;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,212,255,0.3);
+}
+
+.fut-formation-card.selected {
+    border-color: #ffd700;
+    background: linear-gradient(135deg, #2a2a1a 0%, #3a3a2a 100%);
+    box-shadow: 0 10px 25px rgba(255,215,0,0.3);
+}
+
+.formation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.formation-rating {
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    color: #000;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 900;
+    font-size: 1.1rem;
+}
+
+.formation-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #ffd700;
+}
+
+.formation-card p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+.formation-preview {
+    display: flex;
+    justify-content: center;
+}
+
+.preview-field {
+    background: linear-gradient(180deg, #2d5a27 0%, #1e3a1a 100%);
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 15px;
+    min-width: 200px;
+}
+
+.preview-row {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 8px;
+}
+
+.preview-position {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 5px;
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    min-width: 25px;
+    text-align: center;
+}
+
+.draft-interface {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 2px solid #333;
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.draft-progress {
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    background: #333;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.progress-fill {
+    background: linear-gradient(90deg, #00d4ff, #ffd700);
+    height: 100%;
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+.draft-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: 900;
+    color: #00d4ff;
+    text-shadow: 0 0 15px rgba(0,212,255,0.5);
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #888;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 5px;
+}
+
+.stat span:last-child {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffd700;
+}
+
+.game-area {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.spin-section {
+    background: rgba(255,255,255,0.1);
+    padding: 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+}
+
+.spin-section h2 {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.fut-button {
+    background: linear-gradient(45deg, #00d4ff, #0099cc);
+    border: none;
+    color: white;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,212,255,0.3);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+}
+
+.fut-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,212,255,0.4);
+    background: linear-gradient(45deg, #00e5ff, #00aadd);
+}
+
+.fut-button:disabled {
+    background: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.player-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.fut-player-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* Player card - main player selection cards with hover effects */
+.player-card {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 2px solid #333;
+    border-radius: 15px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.player-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0,212,255,0.1), transparent);
+    transition: left 0.5s;
+}
+
+.player-card:hover::before {
+    left: 100%;
+}
+
+.player-card:hover {
+    border-color: #00d4ff;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,212,255,0.3);
+}
+
+.player-card.selected {
+    border-color: #ffd700;
+    background: linear-gradient(135deg, #2a2a1a 0%, #3a3a2a 100%);
+    box-shadow: 0 10px 25px rgba(255,215,0,0.3);
+}
+
+/* Player face - emoji faces with bounce animation */
+.player-face {
+    font-size: 4rem;
+    margin-bottom: 15px;
+    animation: bounce 2s infinite;
+    filter: drop-shadow(0 0 10px rgba(0,212,255,0.3));
+}
+
+.player-card.dancing .player-face {
+    animation: dance 0.5s infinite alternate;
+}
+
+/* Different dance styles based on rating */
+.player-card.legend-dance .player-face {
+    animation: dance 0.3s infinite alternate;
+    filter: drop-shadow(0 0 20px rgba(255,215,0,0.8));
+}
+
+.player-card.star-dance .player-face {
+    animation: wiggle 0.4s infinite alternate;
+    filter: drop-shadow(0 0 15px rgba(0,212,255,0.6));
+}
+
+.player-card.good-dance .player-face {
+    animation: bounce 0.6s infinite;
+    filter: drop-shadow(0 0 10px rgba(0,255,0,0.4));
+}
+
+.player-card.average-dance .player-face {
+    animation: shake 0.8s infinite;
+    filter: drop-shadow(0 0 8px rgba(255,165,0,0.3));
+}
+
+.player-card.bum-dance .player-face {
+    animation: shake 1s infinite;
+    filter: drop-shadow(0 0 5px rgba(255,0,0,0.2));
+}
+
+.player-card.diddy-dance .player-face {
+    animation: diddy-dance 0.4s infinite alternate;
+    filter: drop-shadow(0 0 25px rgba(255,0,255,0.9));
+    font-size: 5rem;
+}
+
+.player-name {
+    font-weight: 900;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #fff;
+    text-align: center;
+}
+
+.player-position {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.player-rating {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #00d4ff;
+    text-shadow: 0 0 20px rgba(0,212,255,0.5);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.player-country {
+    font-size: 0.8rem;
+    color: #666;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.position-selection {
+    background: rgba(255,255,255,0.2);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.position-selection h3 {
+    margin-bottom: 10px;
+    color: #ffd700;
+}
+
+.position-selection p {
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+.available-positions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.position-btn {
+    background: linear-gradient(45deg, #4ecdc4, #44a08d);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.position-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(78,205,196,0.3);
+}
+
+.cancel-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255,107,107,0.3);
+}
+
+.player-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.player-position {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 5px;
+}
+
+.player-rating {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffd700;
+}
+
+.team-section {
+    background: rgba(255,255,255,0.1);
+    padding: 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.team-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.formation {
+    margin-bottom: 30px;
+}
+
+.field {
+    background: linear-gradient(180deg, #2d5a27 0%, #1e3a1a 100%);
+    border: 3px solid white;
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+    min-height: 400px;
+}
+
+.position-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.position {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 10px;
+    padding: 10px;
+    min-width: 80px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.position.filled {
+    border-color: #4ecdc4;
+    background: rgba(78,205,196,0.2);
+}
+
+.position.available {
+    border-color: #ffd700;
+    background: rgba(255,215,0,0.2);
+    cursor: pointer;
+}
+
+.position.highlighted {
+    border-color: #ffd700;
+    background: rgba(255,215,0,0.3);
+    box-shadow: 0 0 15px rgba(255,215,0,0.5);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 15px rgba(255,215,0,0.5); }
+    50% { box-shadow: 0 0 25px rgba(255,215,0,0.8); }
+    100% { box-shadow: 0 0 15px rgba(255,215,0,0.5); }
+}
+
+/* Bounce animation - gentle up and down movement */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes dance {
+    0% {
+        transform: rotate(-10deg) scale(1.1);
+    }
+    25% {
+        transform: rotate(10deg) scale(1.2);
+    }
+    50% {
+        transform: rotate(-5deg) scale(1.1);
+    }
+    75% {
+        transform: rotate(5deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(-10deg) scale(1.1);
+    }
+}
+
+@keyframes wiggle {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Diddy dance animation - special epic animation for Diddy Kong */
+/* Features: scaling, rotation, translation, and rainbow color cycling */
+@keyframes diddy-dance {
+    0% { 
+        transform: scale(1) rotate(-10deg) translateY(0px);
+        filter: drop-shadow(0 0 25px rgba(255,0,255,0.9)) hue-rotate(0deg);
+    }
+    25% { 
+        transform: scale(1.2) rotate(10deg) translateY(-10px);
+        filter: drop-shadow(0 0 30px rgba(255,0,255,1)) hue-rotate(90deg);
+    }
+    50% { 
+        transform: scale(1.1) rotate(-5deg) translateY(-5px);
+        filter: drop-shadow(0 0 35px rgba(255,0,255,1)) hue-rotate(180deg);
+    }
+    75% { 
+        transform: scale(1.3) rotate(15deg) translateY(-15px);
+        filter: drop-shadow(0 0 40px rgba(255,0,255,1)) hue-rotate(270deg);
+    }
+    100% { 
+        transform: scale(1) rotate(-10deg) translateY(0px);
+        filter: drop-shadow(0 0 25px rgba(255,0,255,0.9)) hue-rotate(360deg);
+    }
+}
+
+.position-label {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-bottom: 5px;
+}
+
+.player-slot {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.bench-section {
+    text-align: center;
+}
+
+.bench-section h3 {
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.bench {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.bench-slot {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 10px;
+    padding: 15px;
+    min-width: 100px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.bench-slot.filled {
+    border-color: #ffd700;
+    background: rgba(255,215,0,0.2);
+}
+
+.final-score {
+    text-align: center;
+    background: rgba(255,255,255,0.1);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.final-score h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #ffd700;
+}
+
+#rating-message {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.restart-button {
+    background: linear-gradient(45deg, #4ecdc4, #44a08d);
+    border: none;
+    color: white;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(78,205,196,0.3);
+}
+
+.restart-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(78,205,196,0.4);
+}
+
+@media (max-width: 768px) {
+    .game-area {
+        grid-template-columns: 1fr;
+    }
+    
+    .game-stats {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .position-row {
+        flex-wrap: wrap;
+    }
+    
+    .bench {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+}

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUT 25 Draft - All-Time Legends</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- FIFA ULTIMATE TEAM DRAFT GAME -->
+    <!-- A soccer team builder game where you draft players and build the ultimate team -->
+    <!-- Features: Formation selection, player chemistry, weighted drops, and special Diddy Kong! -->
+    <div class="container">
+        <!-- Main game header with logo and draft progress -->
+        <header class="fut-header">
+            <div class="fut-logo">
+                <h1>FIFA ULTIMATE TEAM</h1>
+                <h2>DRAFT</h2>
+            </div>
+            <div class="draft-info">
+                <div class="draft-round">
+                    <span class="round-label">ROUND</span>
+                    <span id="current-round">1</span>
+                    <span class="round-total">/ 15</span>
+                </div>
+                <div class="draft-picks">
+                    <span class="picks-label">PICKS LEFT</span>
+                    <span id="picks-left">15</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Formation Selection Screen - choose your tactical setup -->
+        <div id="formation-selection" class="formation-selection-screen">
+            <div class="fut-card">
+                <h2>SELECT FORMATION</h2>
+                <p>Choose your tactical setup for the draft</p>
+            </div>
+            <div class="formation-options">
+                <div class="formation-card fut-formation-card" data-formation="4-4-2">
+                    <div class="formation-header">
+                        <h3>4-4-2</h3>
+                        <div class="formation-rating">85</div>
+                    </div>
+                    <p>Classic balanced formation</p>
+                    <div class="formation-preview">
+                        <div class="preview-field">
+                            <div class="preview-row">
+                                <div class="preview-position">ST</div>
+                                <div class="preview-position">ST</div>
+                            </div>
+                            <div class="preview-row">
+                                <div class="preview-position">LM</div>
+                                <div class="preview-position">CM</div>
+                                <div class="preview-position">CM</div>
+                                <div class="preview-position">RM</div>
+                            </div>
+                            <div class="preview-row">
+                                <div class="preview-position">LB</div>
+                                <div class="preview-position">CB</div>
+                                <div class="preview-position">CB</div>
+                                <div class="preview-position">RB</div>
+                            </div>
+                            <div class="preview-row">
+                                <div class="preview-position">GK</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formation-card fut-formation-card" data-formation="4-3-3">
+                    <div class="formation-header">
+                        <h3>4-3-3</h3>
+                        <div class="formation-rating">88</div>
+                    </div>
+                    <p>Attacking formation with wingers</p>
+                    <div class="formation-preview">
+                        <div class="preview-field">
+                            <div class="preview-row">
+                                <div class="preview-position">LW</div>
+                                <div class="preview-position">ST</div>
+                                <div class="preview-position">RW</div>
+                            </div>
+                            <div class="preview-row">
+                                <div class="preview-position">CM</div>
+                                <div class="preview-position">CM</div>
+                                <div class="preview-position">CM</div>
+                            </div>
+                            <div class="preview-row">
+                                <div class="preview-position">LB</div>
+                                <div class="preview-position">CB</div>
+                                <div class="preview-position">CB</div>
+                                <div class="preview-position">RB</div>
+                            </div>
+                            <div class="preview-row">
+                                <div class="preview-position">GK</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formation-card fut-formation-card" data-formation="3-5-2">
+                    <div class="formation-header">
+                        <h3>3-5-2</h3>
+                        <div class="formation-rating">82</div>
+                    </div>
+                    <p>Midfield-heavy formation</p>
+                    <div class="formation-preview">
+                        <div class="preview-field">
+                            <div class="preview-row">
+                                <div class="preview-position">ST</div>
+                                <div class="preview-position">ST</div>
+                            </div>
+                            <div class="preview-row">
+                                <div class="preview-position">LM</div>
+                                <div class="preview-position">CM</div>
+                                <div class="preview-position">CM</div>
+                                <div class="preview-position">CM</div>
+                                <div class="preview-position">RM</div>
+                            </div>
+                            <div class="preview-row">
+                                <div class="preview-position">CB</div>
+                                <div class="preview-position">CB</div>
+                                <div class="preview-position">CB</div>
+                            </div>
+                            <div class="preview-row">
+                                <div class="preview-position">GK</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Game Area - draft interface and team building -->
+        <div id="main-game" class="main-game" style="display: none;">
+            <div class="draft-interface">
+                <div class="draft-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="draft-stats">
+                        <div class="stat-item">
+                            <span class="stat-value" id="team-rating">0</span>
+                            <span class="stat-label">TEAM RATING</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="chemistry">0</span>
+                            <span class="stat-label">CHEMISTRY</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="selected-formation">4-4-2</span>
+                            <span class="stat-label">FORMATION</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="draft-area">
+                    <div class="player-selection">
+                        <div class="selection-header">
+                            <h2 id="selection-title">PICK YOUR PLAYER</h2>
+                            <div class="round-info">
+                                <span id="position-needed">Goalkeeper</span>
+                            </div>
+                        </div>
+                        <div id="player-options" class="player-options fut-player-cards"></div>
+                        <button id="spin-btn" class="fut-button">CONTINUE</button>
+                    </div>
+
+                    <div class="team-section">
+                        <div class="team-header">
+                            <h2>YOUR DRAFT TEAM</h2>
+                            <div class="team-chemistry">
+                                <span class="chemistry-value" id="team-chemistry-display">0</span>
+                                <span class="chemistry-label">CHEMISTRY</span>
+                            </div>
+                        </div>
+                        <div class="formation">
+                            <div class="field fut-field">
+                        <div class="position-row">
+                            <div class="position" data-position="GK">
+                                <div class="position-label">GK</div>
+                                <div class="player-slot" id="GK"></div>
+                            </div>
+                        </div>
+                        <div class="position-row">
+                            <div class="position" data-position="LB">
+                                <div class="position-label">LB</div>
+                                <div class="player-slot" id="LB"></div>
+                            </div>
+                            <div class="position" data-position="CB1">
+                                <div class="position-label">CB</div>
+                                <div class="player-slot" id="CB1"></div>
+                            </div>
+                            <div class="position" data-position="CB2">
+                                <div class="position-label">CB</div>
+                                <div class="player-slot" id="CB2"></div>
+                            </div>
+                            <div class="position" data-position="RB">
+                                <div class="position-label">RB</div>
+                                <div class="player-slot" id="RB"></div>
+                            </div>
+                        </div>
+                        <div class="position-row">
+                            <div class="position" data-position="LM">
+                                <div class="position-label">LM</div>
+                                <div class="player-slot" id="LM"></div>
+                            </div>
+                            <div class="position" data-position="CM1">
+                                <div class="position-label">CM</div>
+                                <div class="player-slot" id="CM1"></div>
+                            </div>
+                            <div class="position" data-position="CM2">
+                                <div class="position-label">CM</div>
+                                <div class="player-slot" id="CM2"></div>
+                            </div>
+                            <div class="position" data-position="RM">
+                                <div class="position-label">RM</div>
+                                <div class="player-slot" id="RM"></div>
+                            </div>
+                        </div>
+                        <div class="position-row">
+                            <div class="position" data-position="ST1">
+                                <div class="position-label">ST</div>
+                                <div class="player-slot" id="ST1"></div>
+                            </div>
+                            <div class="position" data-position="ST2">
+                                <div class="position-label">ST</div>
+                                <div class="player-slot" id="ST2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bench-section">
+                    <h3>Bench (3 players)</h3>
+                    <div class="bench">
+                        <div class="bench-slot" id="bench1"></div>
+                        <div class="bench-slot" id="bench2"></div>
+                        <div class="bench-slot" id="bench3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="final-score" id="final-score" style="display: none;">
+                <h2>🎉 Final Team Rating: <span id="final-rating"></span></h2>
+                <p id="rating-message"></p>
+                <button id="restart-btn" class="restart-button">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript game logic and functionality -->
+    <script src="script.js"></script>
+    </body>
+    </html>
