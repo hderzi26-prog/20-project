@@ -1,23 +1,65 @@
 /**
  * FIFA ULTIMATE TEAM DRAFT GAME STYLES
- * Modern, futuristic design with animations and responsive layout
- * Features: Dark theme, glowing effects, player cards, and dance animations
+ * ====================================
+ * 
+ * This CSS file contains all styling for the FIFA Ultimate Team Draft game.
+ * It implements a modern, futuristic design inspired by FIFA Ultimate Team's aesthetic.
+ * 
+ * DESIGN PHILOSOPHY:
+ * - Dark Theme: Professional, modern look with blue and gold accents
+ * - Interactive Elements: Hover effects, animations, and visual feedback
+ * - Responsive Design: Works on desktop, tablet, and mobile devices
+ * - Gaming Aesthetic: Card-based UI similar to FIFA Ultimate Team
+ * 
+ * KEY STYLING FEATURES:
+ * - Gradient Backgrounds: Multi-layer gradients for depth
+ * - Glowing Effects: Box-shadows and filters for futuristic feel
+ * - Card Animations: Hover effects, dancing, and transitions
+ * - Typography: Bold, modern fonts for gaming feel
+ * - Color Scheme: Dark backgrounds with bright accent colors
+ * 
+ * ANIMATION SYSTEM:
+ * - Player Card Dancing: Different animations based on player rating
+ * - Hover Effects: Smooth transitions and visual feedback
+ * - Loading States: Pulse and bounce animations
+ * - Special Effects: Diddy Kong's epic rainbow dance animation
+ * 
+ * RESPONSIVE BREAKPOINTS:
+ * - Desktop: Full layout with all features
+ * - Tablet: Adjusted spacing and sizing
+ * - Mobile: Stacked layout with touch-friendly controls
  */
 
-/* Reset and base styles - removes default browser styling */
+/* RESET AND BASE STYLES
+ * =====================
+ * Removes default browser styling and sets up consistent base styles
+ * This ensures the game looks the same across all browsers
+ */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Main body styling - dark futuristic theme */
+/* MAIN BODY STYLING
+ * =================
+ * Sets up the overall page appearance with dark, futuristic theme
+ * Creates the foundation for the entire game's visual design
+ */
 body {
+    /* TYPOGRAPHY: Modern, gaming-appropriate font stack */
     font-family: 'Futura', 'Arial', sans-serif;
+    
+    /* BACKGROUND: Multi-layer gradient for depth and visual interest */
+    /* Creates a dark, professional look with subtle color transitions */
     background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+    
+    /* LAYOUT: Ensures full viewport height and prevents horizontal scroll */
     min-height: 100vh;
-    color: white;
     overflow-x: hidden;
+    
+    /* TEXT COLOR: High contrast white text for readability on dark background */
+    color: white;
 }
 
 /* Main container - centers content and sets max width */
@@ -355,17 +397,37 @@ body {
     margin-bottom: 30px;
 }
 
-/* Player card - main player selection cards with hover effects */
+/* PLAYER CARD STYLING
+ * ===================
+ * The main visual component for player selection
+ * Each card represents a player that can be drafted
+ * Includes hover effects, animations, and visual feedback
+ */
 .player-card {
+    /* BACKGROUND: Subtle gradient for depth and modern look */
     background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    
+    /* BORDER: Subtle border that becomes more prominent on hover */
     border: 2px solid #333;
     border-radius: 15px;
+    
+    /* SPACING: Internal padding for content breathing room */
     padding: 20px;
+    
+    /* INTERACTION: Cursor changes to pointer to indicate clickability */
     cursor: pointer;
+    
+    /* ANIMATIONS: Smooth transitions for all property changes */
     transition: all 0.3s ease;
+    
+    /* LAYOUT: Relative positioning for absolute child elements */
     position: relative;
     overflow: hidden;
+    
+    /* DIMENSIONS: Consistent height for uniform card appearance */
     min-height: 320px;
+    
+    /* FLEXBOX: Centers content vertically and horizontally */
     display: flex;
     flex-direction: column;
     align-items: center;

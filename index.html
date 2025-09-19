@@ -1,31 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- META TAGS FOR PROPER RENDERING -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- PAGE TITLE: Displayed in browser tab -->
     <title>FUT 25 Draft - All-Time Legends</title>
+    
+    <!-- STYLESHEET: Links to external CSS file for all styling -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- FIFA ULTIMATE TEAM DRAFT GAME -->
-    <!-- A soccer team builder game where you draft players and build the ultimate team -->
-    <!-- Features: Formation selection, player chemistry, weighted drops, and special Diddy Kong! -->
+    <!-- =============================== -->
+    <!-- 
+    This is the main HTML structure for the FIFA Ultimate Team Draft game.
+    
+    GAME OVERVIEW:
+    - Players select a formation and draft 15 players to build their ultimate team
+    - Each pick shows 3 main players + 1 bench player option
+    - Players are placed in formation positions or on the bench
+    - Final team rating is calculated based on chemistry and balance
+    
+    KEY FEATURES:
+    - Formation Selection: Choose tactical setup at start
+    - Smart Draft System: Fills needed positions intelligently  
+    - Player Chemistry: Bonuses for legendary duos and country connections
+    - Weighted Drops: Higher-rated players are rarer (realistic difficulty)
+    - Special Character: Diddy Kong (105 rated, 1% drop rate) with epic animations
+    - Balanced Draft: Maximum 3 bad players per pick for fair gameplay
+    - Interactive UI: Player cards with emoji faces and dance animations
+    -->
+    
+    <!-- MAIN CONTAINER: Centers all content and sets maximum width -->
     <div class="container">
-        <!-- Main game header with logo and draft progress -->
+        <!-- GAME HEADER
+             ===========
+             Displays the main game title and current draft progress
+             Shows round number and picks remaining for player reference
+         -->
         <header class="fut-header">
+            <!-- GAME LOGO: Main title and subtitle -->
             <div class="fut-logo">
                 <h1>FIFA ULTIMATE TEAM</h1>
                 <h2>DRAFT</h2>
             </div>
+            
+            <!-- DRAFT PROGRESS: Shows current status of the draft -->
             <div class="draft-info">
+                <!-- CURRENT ROUND: Which round of the draft we're in -->
                 <div class="draft-round">
                     <span class="round-label">ROUND</span>
-                    <span id="current-round">1</span>
+                    <span id="current-round">1</span>  <!-- Updated by JavaScript -->
                     <span class="round-total">/ 15</span>
                 </div>
+                
+                <!-- PICKS REMAINING: How many picks left in the draft -->
                 <div class="draft-picks">
                     <span class="picks-label">PICKS LEFT</span>
-                    <span id="picks-left">15</span>
+                    <span id="picks-left">15</span>  <!-- Updated by JavaScript -->
                 </div>
             </div>
         </header>

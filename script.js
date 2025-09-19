@@ -1,11 +1,41 @@
 /**
  * FIFA ULTIMATE TEAM DRAFT GAME
- * A soccer team builder game where you draft players and build the ultimate team
- * Features: Formation selection, player chemistry, weighted drops, and special Diddy Kong!
+ * ================================
+ * 
+ * A comprehensive soccer team builder game inspired by FIFA Ultimate Team's draft mode.
+ * Players draft legendary soccer players to build their dream team and compete for the highest rating.
+ * 
+ * GAME FLOW:
+ * 1. Player selects a formation (4-4-2, 4-3-3, or 3-5-2)
+ * 2. Player gets 15 picks to build their team (11 starters + 3 bench)
+ * 3. Each pick shows 3 main players + 1 bench player option
+ * 4. Player places selected players in formation or on bench
+ * 5. Game calculates final team rating based on chemistry and balance
+ * 
+ * KEY FEATURES:
+ * - Formation Selection: Choose tactical setup at start
+ * - Smart Draft System: Fills needed positions intelligently
+ * - Player Chemistry: Bonuses for legendary duos and country connections
+ * - Weighted Drops: Higher-rated players are rarer (realistic difficulty)
+ * - Special Character: Diddy Kong (105 rated, 1% drop rate) with epic animations
+ * - Balanced Draft: Maximum 3 bad players per pick for fair gameplay
+ * - Interactive UI: Player cards with emoji faces and dance animations
+ * 
+ * TECHNICAL ARCHITECTURE:
+ * - HTML: Structure and layout
+ * - CSS: Styling, animations, and responsive design
+ * - JavaScript: Game logic, state management, and user interactions
  */
 
-// Player database with legendary soccer players
-// Each player has: name, position, rating (1-105), country, and optional special flags
+// PLAYER DATABASE
+// ===============
+// Contains all available players for the draft
+// Each player object contains:
+// - name: Player's full name (string)
+// - position: Primary position (string) - GK, CB, LB, RB, CM, LM, RM, ST, LW, RW
+// - rating: Overall rating 1-105 (number) - higher is better
+// - country: Nationality (string) - used for chemistry bonuses
+// - isDiddy: Special flag for Diddy Kong (boolean) - triggers special animations
 const players = [
     // Goalkeepers
     { name: "Lev Yashin", position: "GK", rating: 95, country: "Russia" },
@@ -103,8 +133,14 @@ const players = [
     { name: "Diddy Kong", position: "ST", rating: 105, country: "Kong Island", isDiddy: true }
 ];
 
-// Formation definitions - each formation has required positions and visual layout
-// Positions are mapped to field coordinates for display
+// FORMATION DEFINITIONS
+// =====================
+// Defines the tactical formations available in the game
+// Each formation object contains:
+// - positions: Object mapping position names to required count (e.g., "GK": 1, "CB1": 1)
+// - layout: Array of row objects defining visual field layout for display
+//   - row: Row name for CSS styling (e.g., "attack", "midfield", "defense", "goalkeeper")
+//   - positions: Array of position names in this row (left to right)
 const formations = {
     "4-4-2": {
         positions: {
@@ -171,18 +207,31 @@ const formations = {
     }
 };
 
-// Game state - tracks all current game data
-// This object holds the current state of the draft, team, and UI
+// GAME STATE MANAGEMENT
+// =====================
+// Central object that tracks all current game data and state
+// This is the single source of truth for the entire game state
+// All functions read from and modify this object to maintain consistency
 let gameState = {
-    selectedFormation: "4-4-2",
-    spinsLeft: 15,
-    team: {},
-    bench: [null, null, null],
-    currentSpin: null,
-    selectedPlayer: null
+    // FORMATION DATA
+    selectedFormation: "4-4-2",  // Currently selected formation (4-4-2, 4-3-3, or 3-5-2)
+    
+    // DRAFT PROGRESSION
+    spinsLeft: 15,  // Number of picks remaining (starts at 15, decreases each pick)
+    
+    // TEAM COMPOSITION
+    team: {},  // Object storing main team players - keys are position names, values are player objects
+    bench: [null, null, null],  // Array of 3 bench players (null = empty slot)
+    
+    // CURRENT PICK STATE
+    currentSpin: null,  // Object containing current pick options: {main: [3 players], bench: 1 player}
+    selectedPlayer: null  // Player currently being placed (null when no selection active)
 };
 
-// Position requirements
+// POSITION REQUIREMENTS
+// =====================
+// Defines how many players are needed for each position type across all formations
+// Used for validation and team completion checking
 const positionRequirements = {
     GK: 1,
     CB: 2,
@@ -206,18 +255,31 @@ const ratingMessage = document.getElementById('rating-message');
 const restartBtn = document.getElementById('restart-btn');
 
 // Initialize game
-// Initialize the game - sets up event listeners and initial state
-// Called when the page loads to prepare the game for play
+// GAME INITIALIZATION
+// ===================
+// Sets up the game when the page loads
+// This function is the entry point that prepares everything for gameplay
 function initGame() {
-    // Initialize team structure based on default formation
+    // STEP 1: Initialize team structure
+    // Creates empty team object based on the default formation (4-4-2)
+    // Sets up all position slots as null (empty)
     initializeTeam();
     
-    // Add formation selection event listeners
+    // STEP 2: Set up formation selection
+    // Adds click event listeners to all formation cards
+    // When clicked, calls selectFormation() with the formation name
     document.querySelectorAll('.formation-card').forEach(card => {
         card.addEventListener('click', () => selectFormation(card.dataset.formation));
     });
     
+    // STEP 3: Set up main game controls
+    // Adds click event listener to the spin button
+    // When clicked, calls handleSpin() to generate new player options
     spinBtn.addEventListener('click', handleSpin);
+    
+    // STEP 4: Set up game restart
+    // Adds click event listener to the restart button
+    // When clicked, calls restartGame() to reset everything and start over
     restartBtn.addEventListener('click', restartGame);
 }
 
