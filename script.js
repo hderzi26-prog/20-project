@@ -350,15 +350,17 @@ function getNeededPositions() {
     return neededPositions;
 }
 
-// Get players for needed positions - smart draft system
+// Get players for needed positions - smart draft system with balanced difficulty
 // Returns 3 players that can fill the positions still needed in the formation
+// NEW FEATURE: Maximum 3 bad players (rating < 80) per pick for better balance
 function getPlayersForNeededPositions(neededPositions) {
     const availablePlayers = getAvailablePlayers();
     const spinPlayers = [];
     
     if (neededPositions.length === 0) {
-        // If all positions are filled, get random players for bench
-        return getWeightedRandomPlayers(availablePlayers, 3);
+        // If all positions are filled, get balanced random players for bench
+        // This ensures maximum 3 bad players even when filling bench slots
+        return getBalancedRandomPlayers(availablePlayers, 3);
     }
     
     // Get 3 players that can fill needed positions
@@ -390,7 +392,66 @@ function getPlayersForNeededPositions(neededPositions) {
         availablePlayers.splice(availablePlayers.indexOf(randomPlayer), 1);
     }
     
+    // Ensure maximum 3 bad players per pick for better balance
+    return ensureMaxBadPlayers(spinPlayers, availablePlayers);
+}
+
+// Ensure maximum 3 bad players per pick - balances the draft for better gameplay
+// Replaces excess bad players (rating < 80) with better players to improve pick quality
+function ensureMaxBadPlayers(spinPlayers, availablePlayers) {
+    // Count current bad players (rating below 80)
+    const badPlayers = spinPlayers.filter(player => player.rating < 80);
+    
+    // If we have more than 3 bad players, replace the excess with better ones
+    if (badPlayers.length > 3) {
+        const excessCount = badPlayers.length - 3;
+        const goodPlayers = availablePlayers.filter(player => 
+            player.rating >= 80 && !spinPlayers.some(p => p.name === player.name)
+        );
+        
+        // Replace excess bad players with good ones
+        for (let i = 0; i < excessCount && goodPlayers.length > 0; i++) {
+            // Find the worst bad player to replace
+            const worstBadPlayer = badPlayers.sort((a, b) => a.rating - b.rating)[i];
+            const worstIndex = spinPlayers.findIndex(p => p.name === worstBadPlayer.name);
+            
+            if (worstIndex !== -1) {
+                // Get a random good player
+                const randomGoodPlayer = goodPlayers[Math.floor(Math.random() * goodPlayers.length)];
+                spinPlayers[worstIndex] = randomGoodPlayer;
+                
+                // Remove from good players to avoid duplicates
+                const goodIndex = goodPlayers.findIndex(p => p.name === randomGoodPlayer.name);
+                if (goodIndex > -1) {
+                    goodPlayers.splice(goodIndex, 1);
+                }
+            }
+        }
+    }
+    
     return spinPlayers;
+}
+
+// Get balanced random players - ensures better distribution of player quality
+// Uses the same weighted system but applies bad player limits
+function getBalancedRandomPlayers(playerList, count) {
+    const result = [];
+    const availablePlayers = [...playerList];
+    
+    for (let i = 0; i < count && availablePlayers.length > 0; i++) {
+        const randomPlayer = getWeightedRandomPlayer(availablePlayers);
+        if (randomPlayer) {
+            result.push(randomPlayer);
+            // Remove from available to avoid duplicates
+            const index = availablePlayers.findIndex(p => p.name === randomPlayer.name);
+            if (index > -1) {
+                availablePlayers.splice(index, 1);
+            }
+        }
+    }
+    
+    // Apply bad player limit to the result
+    return ensureMaxBadPlayers(result, availablePlayers);
 }
 
 // Get weighted random player (lower-rated players more likely) - difficulty system
